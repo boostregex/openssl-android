@@ -1,0 +1,47 @@
+
+These files allow you to use a binary copy of the OpenSSL artifacts
+in other Android projects without having to rebuild from source.
+
+You simply compile once and deploy to a shared location where the
+libraries can be accessed during the build of any other project.
+
+See the file ${NDK_HOME}/docs/PREBUILTS.html for details.
+
+To use this scheme, simply do the following:
+
+a) create a directory to be a repository for third party modules, e.g.
+
+      mkdir -p ~/ndk-prebuilt/openssl
+
+b) add the libs directory to the environment variable NDK_MODULE_PATH, e.g.:
+
+      export NDK_MODULE_PATH=${HOME}/ndk-prebuilt
+
+c) build the project:
+
+      ${NDK_HOME}/ndk-build
+
+d) copy the libs there:
+
+      cp -r libs/* ~/ndk-prebuilt/openssl/
+
+e) copy the special Android.mk there:
+
+      cp prebuilt/Android.mk ~/ndk-prebuilt/openssl/
+
+f) now it can be used in other projects by adding the following to
+   their Android.mk:
+
+      OPENSSL_HOME := $(HOME)/ws/openssl/openssl-android/include
+
+      # inside any module definition that needs OpenSSL:
+      LOCAL_C_INCLUDES += $(OPENSSL_HOME)/include
+      LOCAL_SHARED_LIBRARIES += crypto
+      LOCAL_SHARED_LIBRARIES += ssl
+
+      # at the very bottom of your project's Android.mk
+      $(call import-module,openssl)
+
+Running the script prebuilt/deploy-prebuilt.sh will complete
+steps (a) - (e) for you automatically.
+

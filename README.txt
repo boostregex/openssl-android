@@ -1,10 +1,16 @@
 
 This is a version of the official Android openssl sources, but it is meant to be built as a standalone library to be embedded into app.
 
-To build:
-cd openssl-android
-/path/to/android-ndk-r5b/ndk-build
+To build only:
 
+  cd openssl-android
+  /path/to/android-ndk-r5b/ndk-build
+
+To build and deploy it as an NDK prebuilt library, see
+prebuild/README.txt, or just run:
+
+  export NDK_HOME=/path/to/android-ndk-r5b
+  prebuild/deploy-prebuilt.sh
 
 http://guardianproject.info
 
